@@ -1,5 +1,6 @@
 package com.example.myfirstapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.TextView;
 
 public class DisplayMessageActivity extends ActionBarActivity {
 
@@ -25,6 +27,23 @@ public class DisplayMessageActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Wait until the text view in the fragment can be found, then insert the message.
+     *
+     * Views in PlaceholderFragment (as created by default when creating an activity in Android
+     * Studio 0.4.0) are not accessible by findViewById until the onResume() stage of the Activity
+     * lifecycle.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+
+        TextView textView = (TextView) findViewById(R.id.display_message);
+        textView.setText(message);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
